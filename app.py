@@ -3,6 +3,8 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+import joblib
+
 
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
@@ -146,23 +148,48 @@ elif page == "Model Training":
     st.success("Models Trained Successfully")
 
 # ================= PREDICTION =================
+# elif page == "Prediction":
+#     st.title("Predict Customer Segment")
+
+#     recency = st.number_input("Recency", min_value=0)
+#     frequency = st.number_input("Frequency", min_value=0)
+#     monetary = st.number_input("Monetary", min_value=0)
+
+#     if st.button("Predict"):
+#         # Temporary simple prediction logic
+#         if monetary > 10000:
+#             segment = "Premium Buyer"
+#         elif frequency > 5:
+#             segment = "Regular Customer"
+#         else:
+#             segment = "Occasional Visitor"
+
+#         st.success(f"Predicted Segment: {segment}")
 elif page == "Prediction":
     st.title("Predict Customer Segment")
+
+    # Load saved model and scaler
+    model = joblib.load("model.pkl")
+    scaler = joblib.load("scaler.pkl")
 
     recency = st.number_input("Recency", min_value=0)
     frequency = st.number_input("Frequency", min_value=0)
     monetary = st.number_input("Monetary", min_value=0)
 
     if st.button("Predict"):
-        # Temporary simple prediction logic
-        if monetary > 10000:
-            segment = "Premium Buyer"
-        elif frequency > 5:
-            segment = "Regular Customer"
-        else:
-            segment = "Occasional Visitor"
 
-        st.success(f"Predicted Segment: {segment}")
+        # Convert input into DataFrame format
+        input_data = pd.DataFrame([[recency, frequency, monetary]],
+                                  columns=['Recency','Frequency','Monetary'])
+
+        # Scale input (VERY IMPORTANT)
+        input_scaled = scaler.transform(input_data)
+
+        # Predict cluster
+        segment = model.predict(input_scaled)
+
+        st.success(f"Predicted Segment: {segment[0]}")
+
 
 # ================= MODEL COMPARISON =================
 elif page == "Model Comparison":
@@ -178,3 +205,4 @@ elif page == "Model Comparison":
 
 
     st.table(comparison)
+
