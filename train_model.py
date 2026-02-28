@@ -17,6 +17,11 @@ rfm['Recency'] = rfm['Frequency'].max() - rfm['Frequency']
 
 X = rfm[['Recency','Frequency','Monetary']]
 
+#check cluster
+rfm['Cluster'] = kmeans.labels_
+print("\nCluster Means:")
+print(rfm.groupby('Cluster')[['Recency','Frequency','Monetary']].mean())
+
 # Scale
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
@@ -28,5 +33,6 @@ kmeans.fit(X_scaled)
 # Save model
 joblib.dump(kmeans, "model.pkl")
 joblib.dump(scaler, "scaler.pkl")
+
 
 print("Model Saved Successfully!")
