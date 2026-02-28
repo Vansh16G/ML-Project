@@ -53,6 +53,60 @@ elif page == "EDA":
     sns.heatmap(df.corr(numeric_only=True), annot=False, cmap='coolwarm', ax=ax3)
     st.pyplot(fig3)
 
+        # ---------------- Age Distribution ----------------
+    st.subheader("Age Distribution")
+    fig4, ax4 = plt.subplots()
+    sns.countplot(x='Age', data=df, ax=ax4)
+    plt.xticks(rotation=45)
+    st.pyplot(fig4)
+
+    # ---------------- City Category Distribution ----------------
+    st.subheader("City Category Distribution")
+    fig5, ax5 = plt.subplots()
+    sns.countplot(x='City_Category', data=df, ax=ax5)
+    st.pyplot(fig5)
+
+    # ---------------- Average Purchase by Gender ----------------
+    st.subheader("Average Purchase by Gender")
+    avg_gender_purchase = df.groupby('Gender')['Purchase'].mean()
+
+    fig6, ax6 = plt.subplots()
+    avg_gender_purchase.plot(kind='bar', ax=ax6)
+    ax6.set_ylabel("Average Purchase")
+    st.pyplot(fig6)
+
+    # ---------------- Average Purchase by Age ----------------
+    st.subheader("Average Purchase by Age Group")
+    avg_age_purchase = df.groupby('Age')['Purchase'].mean()
+
+    fig7, ax7 = plt.subplots()
+    avg_age_purchase.plot(kind='bar', ax=ax7)
+    plt.xticks(rotation=45)
+    ax7.set_ylabel("Average Purchase")
+    st.pyplot(fig7)
+
+    # ---------------- Top 10 Product Categories ----------------
+    st.subheader("Top 10 Product Categories")
+    top_products = df['Product_Category_1'].value_counts().head(10)
+
+    fig8, ax8 = plt.subplots()
+    top_products.plot(kind='bar', ax=ax8)
+    ax8.set_ylabel("Count")
+    st.pyplot(fig8)
+
+    # ---------------- Purchase vs Marital Status ----------------
+    st.subheader("Purchase vs Marital Status")
+    fig9, ax9 = plt.subplots()
+    sns.boxplot(x='Marital_Status', y='Purchase', data=df, ax=ax9)
+    st.pyplot(fig9)
+
+    # ---------------- Purchase vs Occupation ----------------
+    st.subheader("Purchase vs Occupation")
+    fig10, ax10 = plt.subplots(figsize=(10,5))
+    sns.boxplot(x='Occupation', y='Purchase', data=df, ax=ax10)
+    plt.xticks(rotation=90)
+    st.pyplot(fig10)
+
 # ================= MODEL TRAINING =================
 elif page == "Model Training":
     st.title("Clustering + Classification")
@@ -121,5 +175,6 @@ elif page == "Model Comparison":
         "Accuracy": [0.85, 0.88, 0.92],
         "Macro F1 Score": [0.84, 0.87, 0.91]
     })
+
 
     st.table(comparison)
