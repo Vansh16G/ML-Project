@@ -30,6 +30,43 @@ df = load_data()
 
 # ================= HOME =================
 if page == "Home":
+    st.title("Customer Segmentation using RFM Analysis")
+
+    st.subheader("Project Summary")
+
+    st.write("""
+    This project focuses on analyzing customer purchasing behavior using the 
+    Black Friday Sales Dataset. The goal of the project is to perform customer 
+    segmentation using the RFM (Recency, Frequency, Monetary) model and machine 
+    learning techniques.
+
+    RFM analysis helps businesses understand their customers based on three key factors:
+    
+    • Recency – How recently a customer made a purchase  
+    • Frequency – How often a customer makes purchases  
+    • Monetary – How much money a customer spends
+    
+    Using these metrics, customers are grouped into different segments using the 
+    K-Means clustering algorithm. These segments help businesses identify high-value 
+    customers, regular customers, and low-value customers.
+
+    The project also includes Exploratory Data Analysis (EDA) to visualize patterns 
+    in customer data such as purchase distribution, gender distribution, age groups, 
+    and product categories.
+
+    A Streamlit web application is built to provide an interactive interface where users 
+    can explore the dataset, visualize insights, train machine learning models, and 
+    predict customer segments based on RFM values.
+    """)
+
+    st.subheader("Dataset Overview")
+
+    st.write("Total Records:", df.shape[0])
+    st.write("Total Features:", df.shape[1])
+
+    st.subheader("Sample Data")
+
+    st.dataframe(df.head())
     st.title("Customer Segmentation using RFM")
     st.write("Black Friday Sales Dataset")
     st.write("Total Records:", df.shape[0])
@@ -205,4 +242,5 @@ elif page == "Model Comparison":
 
 
     st.table(comparison)
+
 
